@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}CuOOra{% endblock %}</title>
+  
+  <link rel="stylesheet" href="{% static 'css/base_styles.css' %}">
+  {% block extra_css %}
+  {% endblock %}
+
+  {% include 'modal.html' %}
+  <script src="{% static 'js/modal.js' %}"></script>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CuOOra</a> 
+
+    <div class="controls">
+      <select onchange="location = this.value;">
+        {% for path, label in nav_options %}
+          <option value="{{ path }}" {% if request.path == path %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+
+      <button onclick="window.location.href='/cuoora/topics_list'">Topics</button>
+      <button onclick="window.location.href='/users/list'">Users</button>
+    </div>
+
+    <div class="controls">
+      <button class="btn-blue" id="addQuestionBtn">Add Question</button>
+      <span class="username">
+        {% if user.is_authenticated %}
+          {{ user.username }}
+        {% else %}
+          Guest User
+        {% endif %}
+      </span>
+    </div>
+  </header>
+
+  <main>
+
+    {% block content %} 
+    {% endblock %}
+  </main>
+
+  <footer>
+    Practica Final - Alejandro Taylor Sanjuan
+  </footer>
+
+</body>
+
+
+
+</html>

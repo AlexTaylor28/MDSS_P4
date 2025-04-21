@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Users - CuOOra
+{% endblock %}
+
+{% block content %}
+    <h2 style="text-align: center; margin-bottom: 20px;">All Users</h2>
+    <div class="search-container">
+        <input type="text" id="userSearch" onkeyup="filterUsers()" placeholder="Search for users...">
+    </div>
+    <div class="user-grid" id="userGrid">
+        {% for user in users %}
+        <div class="user-card">
+            {% if user.is_recent %}
+            <div class="online-indicator" title="Online recently"></div>
+            {% endif %}
+            <h3>{{ user.username }}</h3>
+            <p><strong>Full name:</strong> {{ user.get_full_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Last login:</strong> 
+                {% if user.last_login %}
+                {{ user.last_login|date:"F j, Y, H:i" }}
+                {% else %}
+                    Never
+                {% endif %}
+            </p>
+            <div class="user-actions">
+                {% if user != request.user %}
+                    <button 
+                        class="follow-btn" 
+                        data-user-id="{{ user.id }}">
+                        {% if user in request.user.following.all %}
+                            Unfollow
+                        {% else %}
+                            Follow
+                        {% endif %}
+                    </button>
+                {% endif %}
+                <button>Message</button>
+            </div>
+        </div>
+        {% empty %}
+        <p>No users found.</p>
+        {% endfor %}
+    </div>
+    <style>
+        .search-container {
+        max-width: 600px;
+        margin: 0 auto 30px;
+        text-align: center;
+        }
+        #userSearch {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        }
+        .user-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        }
+        .user-card {
+        position: relative;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .online-indicator {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 12px;
+        height: 12px;
+        background-color: #27c940;
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px white;
+        }
+        .user-card h3 {
+        margin-top: 0;
+        }
+        .user-card p {
+        margin: 6px 0;
+        }
+        .user-actions {
+        margin-top: 15px;
+        }
+        .user-actions button {
+        margin-right: 10px;
+        background-color: #d3d3d3;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        }
+        .user-actions button:hover {
+        background-color: #bcbcbc;
+        }
+    </style>
+    <script>
+        function filterUsers() {
+            const input = document.getElementById('userSearch');
+            const filter = input.value.toLowerCase();
+            const grid = document.getElementById('userGrid');
+            const cards = grid.getElementsByClassName('user-card');
+    
+            for (let i = 0; i < cards.length; i++) {
+                const username = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+                const fullname = cards[i].getElementsByTagName('p')[0].innerText.toLowerCase();
+                if (username.includes(filter) || fullname.includes(filter)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('.follow-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = this.dataset.userId;
+                    const csrfToken = "{{ csrf_token }}";
+                    const btn = this;
+    
+                    fetch("{% url 'toggle_follow' %}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRFToken": csrfToken
+                        },
+                        body: new URLSearchParams({
+                            "user_id": userId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.followed !== undefined) {
+                            btn.textContent = data.followed ? "Unfollow" : "Follow";
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

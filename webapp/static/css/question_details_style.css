@@ -1,0 +1,126 @@
+.question-detail {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;  
+}
+
+.question-card {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #ccc;
+  padding: 25px 30px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: transform 0.25s ease;
+  box-sizing: border-box;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.question-title {
+  font-size: 1.8em;
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: auto;
+}
+
+.answer-description,
+.question-description {
+  margin-bottom: 20px;
+}
+
+.answer-footer,
+.question-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 1em;
+  color: #000000;
+  border-top: 1px solid #000000;
+  padding-top: 10px;
+}
+
+.answer-user,
+.question-user {
+  font-weight: bold;
+}
+
+.answer-votes,
+.question-votes {
+  font-style: normal;
+}
+
+.answers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.answer-card {  
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px 25px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.3s ease;
+}
+
+.answer-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ANSWER FORM */
+
+.answer-form-section {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.answer-form-section h2 {
+  margin-bottom: 15px;
+  color: #000000;
+}
+
+.answer-form-section .form-group {
+  margin-bottom: 15px;
+}
+
+.answer-form-section label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 12px;
+  color: #000000;
+}
+
+.answer-form-section textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 20px;
+  resize: vertical;
+}
+
+.answer-form-section .btn-submit {
+  background-color: #1e88e5;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.answer-form-section .btn-submit:hover {
+  background-color: #1565c0;
+}
+
+

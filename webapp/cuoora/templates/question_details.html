@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {{ question.title }} - CuOOra
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/question_details_style.css' %}">
+{% endblock %}
+
+{% block content %}
+  <section class="question-detail">
+    <article class="question-card">
+      <p class="question-title">{{ question.title }}</p>
+      <p class="question-description">{{ question.description }}</p>
+      <div class="question-footer">
+        <span class="question-user">{{ question.user }}</span>
+        <span class="question-votes">
+          {{ question.positive_votes.count }} Upvotes |
+          {{ question.negative_votes.count }} Downvotes
+        </span>
+      </div>
+    </article>
+
+    <hr>
+
+    <h1 class="answers-heading">{{answers|length}} Answers Found</h1>
+
+    {% if answers %}
+      <div class="answers-container">
+        {% for answer in answers %}
+          <article class="answer-card">
+            <p class="answer-description">{{ answer.description }}</p>
+            <div class="answer-footer">
+              <span class="answer-user">{{ answer.user }}</span>
+              <span class="answer-votes">
+                {{ answer.positive_votes.count }} Upvotes |
+                {{ answer.negative_votes.count }} Downvotes
+              </span>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="answer-form-section">
+    <h2>Submit Your Answer</h2>
+    <form action="{% url 'submit_answer' question.id %}" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="answer">Your Answer:</label>
+        <textarea id="answer" name="description" class="form-input" required></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Post Answer</button>
+    </form>
+  </section>
+
+
+{% endblock %}
+

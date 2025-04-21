@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {% block retriever_title %} Retriever Name {% endblock %}
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/retriever_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+  <section class="page-header">
+    <h1>{% block retriever_heading %}Retriever Name{% endblock %}</h1>
+    <h2>{{ questions|length }} Questions Found</h2>
+  </section>
+
+  <section class="questions-section">
+    {% for question in questions %}
+    <article class="question-card" onclick="location.href='{% url 'question_details' question.id %}'" style="cursor: pointer;">
+      <h3>{{ question.title }}</h3>
+      <p>{{ question.description }}</p>
+    
+      <div class="question-footer">
+        <span class="question-user">{{ question.user }}</span>
+        <span class="question-votes">
+          {{ question.positive_votes.count }} Upvotes | 
+          {{ question.negative_votes.count }} Downvotes
+        </span>
+      </div>
+    </article>
+    {% empty %}
+    {% endfor %}
+  </section>
+{% endblock %}

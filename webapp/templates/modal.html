@@ -1,0 +1,33 @@
+<div id="addQuestionModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Add a New Question</h2>
+
+        <form action="/questions/add/" method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" class="form-input" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="topics">Topics:</label>
+                <select id="topics" name="topics" class="form-input" multiple>
+                    {% for topic in topics %}
+                        <option value="{{ topic.id }}">{{ topic.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Submit</button>
+                <button type="button" class="btn-cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

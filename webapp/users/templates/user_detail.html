@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ user.username }} - CuOOra
+{% endblock %}
+
+{% block content %}
+  <div class="user-card">
+    <h2>{{ user.username }}</h2>
+    <p><strong>Full name:</strong> {{ user.get_full_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>ID:</strong> {{ user.id }}</p>
+    <p><strong>Date joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+    <p><strong>Last login:</strong> {{ user.last_login|date:"F j, Y, H:i" }}</p>
+
+    <div class="user-actions">
+      <button>Edit Profile</button>
+      <button>Message</button>
+    </div>
+  </div>
+
+  <style>
+    .user-card {
+      background-color: #f9f9f9;
+      border: 2px solid #ddd;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .user-card h2 {
+      margin-top: 0;
+    }
+
+    .user-card p {
+      margin: 8px 0;
+    }
+
+    .user-actions {
+      margin-top: 20px;
+    }
+
+    .user-actions button {
+      margin-right: 10px;
+      background-color: #d3d3d3;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .user-actions button:hover {
+      background-color: #bcbcbc;
+    }
+  </style>
+{% endblock %}

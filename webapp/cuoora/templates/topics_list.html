@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Topics - CuOOra
+{% endblock %}
+
+{% block content %}
+    <h2 style="text-align: center; margin-bottom: 20px;">All Topics</h2>
+
+    <!-- Search bar for filtering topics -->
+    <div class="search-container">
+        <input type="text" id="topicSearch" onkeyup="filterTopics()" placeholder="Search for topics...">
+    </div>
+
+    <div class="topic-grid" id="topicGrid">
+        {% for topic in topics %}
+        <div class="topic-card">
+            <h3>{{ topic.name }}</h3>
+            <p><strong>Description:</strong> {{ topic.description }}</p>
+            <div class="topic-actions">
+                <button>View</button>
+                <button>Follow</button>
+            </div>
+        </div>
+        {% empty %}
+        <p>No topics found.</p>
+        {% endfor %}
+    </div>
+
+    <style>
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            text-align: center;
+        }
+
+        #topicSearch {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .topic-card {
+            position: relative;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .topic-card h3 {
+            margin-top: 0;
+        }
+
+        .topic-card p {
+            margin: 6px 0;
+        }
+
+        /* Styling for the Follow button */
+        .topic-actions {
+            margin-top: 15px;
+        }
+
+        .topic-actions button {
+            margin-right: 10px;
+            background-color: #d3d3d3;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .topic-actions button:hover {
+            background-color: #bcbcbc;
+        }
+
+    </style>
+
+    <script>
+        // JavaScript function to filter topics based on the search input
+        function filterTopics() {
+            const input = document.getElementById('topicSearch');
+            const filter = input.value.toLowerCase();
+            const grid = document.getElementById('topicGrid');
+            const cards = grid.getElementsByClassName('topic-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                const topicName = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+                const description = cards[i].getElementsByTagName('p')[0].innerText.toLowerCase();
+                if (topicName.includes(filter) || description.includes(filter)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        // Placeholder function for the Follow button (you will implement the backend logic)
+        function followTopic(topicId) {
+            // For now, we'll just log the topic ID to the console
+            console.log('Followed topic with ID:', topicId);
+
+            // Later, you can make an AJAX request or redirect to a view to handle the follow functionality
+        }
+    </script>
+
+{% endblock %}
